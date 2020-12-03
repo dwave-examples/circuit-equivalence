@@ -1,5 +1,8 @@
 import itertools
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import networkx as nx
 
 import dimod
 from dwave.system import LeapHybridDQMSampler
@@ -120,14 +123,52 @@ def find_equivalence(C1, C2):
 
     return None
 
+def plot_graphs(G1, G2, node_mapping):
+    """Plot graphs of two circuits
+
+    The provided mapping specifies how nodes in graph 1 correspond to
+    nodes in graph 2.  The nodes in each graph are colored using
+    matching colors based on the specified mapping.
+    """
+    f, axes = plt.subplots(1, 2, figsize=[10,4.5])
+
+    colors = itertools.cycle(mcolors.TABLEAU_COLORS)
+    G1_colors = [c for c,i in zip(colors, G1.nodes)]
+    G2_targets = [node_mapping[n] for n in G1.nodes]
+    G2_colors = [G1_colors[G2_targets.index(n)] for n in G2.nodes]
+
+    nx.draw(G1, with_labels=True, ax=axes[0], node_color=G1_colors)
+    nx.draw(G2, with_labels=True, ax=axes[1], node_color=G2_colors)
+
+    return axes
+
 
 if __name__ == '__main__':
+    import argparse
+
     from circuits import Circuit
 
-    C_nand = Circuit("netlists/cmos_nand_1.txt")
-    C_nor = Circuit("netlists/cmos_nor_1.txt")
-    C_nand_2 = Circuit("netlists/cmos_nand_2.txt")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("netlist1")
+    parser.add_argument("netlist2")
+    parser.add_argument("--plot",  action='store_true', help="plot graphs of the circuits")
 
-    results = find_equivalence(C_nand, C_nand)
-    
-    print(results)
+    args = parser.parse_args()
+
+    C1 = Circuit(args.netlist1)
+    C2 = Circuit(args.netlist2)
+
+    results = find_equivalence(C1, C2)
+
+    if results is None:
+        print('No equivalence found')
+    else:
+        print('Circuits are equivalent:')
+        for n1,n2 in results.items():
+            print('  {} -> {}'.format(n1, n2))
+
+        if args.plot:
+            axes = plot_graphs(C1.G, C2.G, results)
+            axes[0].set_title(args.netlist1)
+            axes[1].set_title(args.netlist2)
+            plt.show()
