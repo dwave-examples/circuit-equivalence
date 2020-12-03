@@ -17,3 +17,11 @@ class TestIsomorphism(unittest.TestCase):
 
         results = find_isomorphism(C_nand.G, C_nor.G)
         self.assertNotEqual(results, None)
+
+class TestNoIsomorphism(unittest.TestCase):
+    def test_nand_nor(self):
+        C_nand = Circuit("netlists/cmos_nand_1.txt")
+        C_nor = Circuit("netlists/cmos_nand_error.txt")
+
+        results = find_isomorphism(C_nand.G, C_nor.G)
+        self.assertEqual(results, None)
