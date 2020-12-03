@@ -12,10 +12,10 @@ class TestCircuits(unittest.TestCase):
 
 class TestIsomorphism(unittest.TestCase):
     def test_nand_nor(self):
-        C_nand = Circuit("netlists/cmos_nand_1.txt")
-        C_nor = Circuit("netlists/cmos_nor_1.txt")
+        C1 = Circuit("netlists/cmos_nand_1.txt")
+        C2 = Circuit("netlists/cmos_nand_2.txt")
 
-        results = find_isomorphism(C_nand.G, C_nor.G)
+        results = find_isomorphism(C1.G, C2.G)
         self.assertNotEqual(results, None)
 
 class TestNoIsomorphism(unittest.TestCase):

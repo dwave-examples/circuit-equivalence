@@ -1,0 +1,5 @@
+%MOS Drain Gate Source Type
+nMOS_B n0 V1 Vo nmos
+pMOS_B Vo V1 Vs pmos
+nMOS_A gnd n0 V2 nmos
+pMOS_A Vo V2 Vs pmos
