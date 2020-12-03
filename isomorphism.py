@@ -75,12 +75,59 @@ def find_isomorphism(G1, G2):
         # Isomorphism not found
         return None
 
+def find_equivalence(C1, C2):
+    """Search for equivalence between two circuits
+
+    This requires that the corresponding graphs are isomorphic and
+    that matched nodes are "equivalent".  In particular, transistor
+    types must match.
+    
+    Returns:
+        If no isomorphism is found, returns None.  Otherwise, returns
+        dict with keys as nodes from graph 1 and values as
+        corresponding nodes from graph 2.
+    """
+    # Todo: this needs to be reworked to look at all discovered
+    # isomorphisms, since we can find some isomorphisms that are not
+    # equivalent circuits
+    if C1.G.number_of_nodes() != C2.G.number_of_nodes():
+        return None
+    dqm = create_dqm(C1.G, C2.G)
+    sampler = LeapHybridDQMSampler("hybrid_discrete_quadratic_model_version1")
+    results = sampler.sample_dqm(dqm)
+
+    if results.first.energy != -C1.G.number_of_nodes():
+        return None
+
+    G2_nodes = list(C2.G.nodes)
+
+    for sample, energy in results.data(fields=['sample','energy']):
+        # print('iter:', energy)
+        if energy == -C1.G.number_of_nodes():
+            # Now check that the transistor types match
+            mapping = {k: G2_nodes[i] for k,i in sample.items()}
+            valid = True
+            # print('checking:', mapping)
+            for n1,n2 in mapping.items():
+                if ('nMOS' in n1 and 'nMOS' not in n2) or ('pMOS' in n1 and 'pMOS' not in n2):
+                    valid = False
+                    break
+            if valid:
+                return mapping
+        else:
+            # Sample is not an isomorphism
+            return None
+
+    return None
+
 
 if __name__ == '__main__':
     from circuits import Circuit
 
     C_nand = Circuit("netlists/cmos_nand_1.txt")
     C_nor = Circuit("netlists/cmos_nor_1.txt")
+    C_nand_2 = Circuit("netlists/cmos_nand_2.txt")
 
-    results = find_isomorphism(C_nand.G, C_nor.G)
+    results = find_equivalence(C_nand, C_nand)
+    
     print(results)

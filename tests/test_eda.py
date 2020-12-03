@@ -1,7 +1,7 @@
 import unittest
 
 from circuits import Circuit
-from isomorphism import find_isomorphism
+from isomorphism import find_isomorphism, find_equivalence
 
 class TestCircuits(unittest.TestCase):
     def test_parsing(self):
@@ -24,4 +24,20 @@ class TestNoIsomorphism(unittest.TestCase):
         C_nor = Circuit("netlists/cmos_nand_error.txt")
 
         results = find_isomorphism(C_nand.G, C_nor.G)
+        self.assertEqual(results, None)
+
+class TestEquivalence(unittest.TestCase):
+    def test_nand_nor(self):
+        C1 = Circuit("netlists/cmos_nand_1.txt")
+        C2 = Circuit("netlists/cmos_nand_2.txt")
+
+        results = find_equivalence(C1, C2)
+        self.assertNotEqual(results, None)
+
+class TestNoEquivalence(unittest.TestCase):
+    def test_nand_nor(self):
+        C_nand = Circuit("netlists/cmos_nand_1.txt")
+        C_nor = Circuit("netlists/cmos_nand_error.txt")
+
+        results = find_equivalence(C_nand, C_nor)
         self.assertEqual(results, None)
