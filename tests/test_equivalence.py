@@ -13,9 +13,14 @@
 # limitations under the License.
 
 import unittest
+import subprocess
+import os
+import sys
 
 from circuits import Circuit
 from equivalence import find_isomorphism, find_equivalence
+
+example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class TestCircuits(unittest.TestCase):
     def test_parsing(self):
@@ -60,3 +65,14 @@ class TestEquivalence(unittest.TestCase):
 
         results = find_equivalence(C1, C2)
         self.assertEqual(results, None)
+
+class TestIntegration(unittest.TestCase):
+
+    def test_integration(self):
+
+        file_path = os.path.join(example_dir, "equivalence.py")
+
+        output = subprocess.check_output([sys.executable, file_path])
+        output = output.decode('utf-8') # Bytes to str
+
+        self.assertIn('circuits are equivalent', output.lower())
