@@ -100,13 +100,10 @@ def find_equivalence(C1, C2):
     types must match.
     
     Returns:
-        If no isomorphism is found, returns None.  Otherwise, returns
+        If no equivalence is found, returns None.  Otherwise, returns
         dict with keys as nodes from graph 1 and values as
         corresponding nodes from graph 2.
     """
-    # Todo: this needs to be reworked to look at all discovered
-    # isomorphisms, since we can find some isomorphisms that are not
-    # equivalent circuits
     if C1.G.number_of_nodes() != C2.G.number_of_nodes():
         return None
     dqm = create_dqm(C1.G, C2.G)
