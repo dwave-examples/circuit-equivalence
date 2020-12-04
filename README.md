@@ -19,7 +19,7 @@ along with the corresponding graph:
 To run the demonstration using the default circuit definitions, use:
 
 ```bash
-python isomorphism.py --plot
+python equivalence.py --plot
 ```
 
 The `--plot` flag is optional, and it causes a plot of the graphs of the two

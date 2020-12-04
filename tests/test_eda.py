@@ -15,7 +15,7 @@
 import unittest
 
 from circuits import Circuit
-from isomorphism import find_isomorphism, find_equivalence
+from equivalence import find_isomorphism, find_equivalence
 
 class TestCircuits(unittest.TestCase):
     def test_parsing(self):
