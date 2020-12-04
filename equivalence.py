@@ -54,6 +54,10 @@ def create_dqm(G1, G2):
             e2 = (G2_nodes[e2_indices[0]], G2_nodes[e2_indices[1]])
             if e2 in G2.edges:
                 continue
+            # In the DQM, the discrete variables represent nodes in
+            # the first graph and are named according to the node
+            # names.  The cases for each discrete variable represent
+            # nodes in the second graph and are index from 0..n-1
             dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1)
             dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1)
 
