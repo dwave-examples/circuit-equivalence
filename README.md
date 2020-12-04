@@ -16,7 +16,7 @@ along with the corresponding graph:
 
 ## Usage
 
-To run the demonstration using the default circuit definitions, use:
+To run the demonstration with the default circuit definitions, execute:
 
 ```bash
 python equivalence.py --plot

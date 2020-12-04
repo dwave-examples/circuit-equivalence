@@ -54,7 +54,6 @@ def create_dqm(G1, G2):
             e2 = (G2_nodes[e2_indices[0]], G2_nodes[e2_indices[1]])
             if e2 in G2.edges:
                 continue
-            # print(e1, e2)
             dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1)
             dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1)
 
@@ -125,12 +124,10 @@ def find_equivalence(C1, C2):
     G2_nodes = list(C2.G.nodes)
 
     for sample, energy in results.data(fields=['sample','energy']):
-        # print('iter:', energy)
         if energy == -C1.G.number_of_nodes():
             # Now check that the transistor types match
             mapping = {k: G2_nodes[i] for k,i in sample.items()}
             valid = True
-            # print('checking:', mapping)
             for n1,n2 in mapping.items():
                 if ('nMOS' in n1 and 'nMOS' not in n2) or ('pMOS' in n1 and 'pMOS' not in n2):
                     valid = False
