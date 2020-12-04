@@ -30,6 +30,9 @@ from dwave.system import LeapHybridDQMSampler
 def create_dqm(G1, G2):
     """Construct DQM based on two graphs
     
+    Create discrete quadratic model to represent the problem of
+    finding an isomorphism between the two graphs
+    
     Returns:
         DiscreteQuadraticModel
     """
