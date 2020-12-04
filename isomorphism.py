@@ -149,8 +149,8 @@ if __name__ == '__main__':
     from circuits import Circuit
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("netlist1")
-    parser.add_argument("netlist2")
+    parser.add_argument("netlist1", nargs='?', default="netlists/cmos_nand_1.txt", help="netlist file specifying first circuit (default: %(default)s)")
+    parser.add_argument("netlist2", nargs='?', default="netlists/cmos_nand_2.txt", help="netlist file specifying second circuit (default: %(default)s)")
     parser.add_argument("--plot",  action='store_true', help="plot graphs of the circuits")
 
     args = parser.parse_args()
