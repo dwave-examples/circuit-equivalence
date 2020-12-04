@@ -33,10 +33,10 @@ class TestIsomorphism(unittest.TestCase):
         self.assertNotEqual(results, None)
 
     def test_non_isomorph(self):
-        C_nand = Circuit("netlists/cmos_nand_1.txt")
-        C_nor = Circuit("netlists/cmos_nand_error.txt")
+        C1 = Circuit("netlists/cmos_nand_1.txt")
+        C2 = Circuit("netlists/cmos_nand_error.txt")
 
-        results = find_isomorphism(C_nand.G, C_nor.G)
+        results = find_isomorphism(C1.G, C2.G)
         self.assertEqual(results, None)
 
     def test_unequal_node_count(self):
@@ -55,8 +55,8 @@ class TestEquivalence(unittest.TestCase):
         self.assertNotEqual(results, None)
 
     def test_not_equivalent(self):
-        C_nand = Circuit("netlists/cmos_nand_1.txt")
-        C_nor = Circuit("netlists/cmos_nand_error.txt")
+        C1 = Circuit("netlists/cmos_nand_1.txt")
+        C2 = Circuit("netlists/cmos_nand_error.txt")
 
-        results = find_equivalence(C_nand, C_nor)
+        results = find_equivalence(C1, C2)
         self.assertEqual(results, None)
