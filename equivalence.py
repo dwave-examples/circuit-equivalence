@@ -16,15 +16,13 @@ import itertools
 import numpy as np
 import networkx as nx
 
-import matplotlib
-import matplotlib.colors as mcolors
-# Trap errors with importing pyplot (for testing frameworks) and
-# specify "agg" backend
+# Ignore errors importing matplotlib.pyplot (may not be available in
+# testing framework)
 try:
     import matplotlib.pyplot as plt
+    import matplotlib.colors as mcolors
 except ImportError:
-    matplotlib.use("agg")
-    import matplotlib.pyplot as plt
+    pass
 
 import dimod
 from dwave.system import LeapHybridDQMSampler
