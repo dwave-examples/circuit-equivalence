@@ -45,8 +45,29 @@ def create_dqm(G1, G2):
 
     dqm = dimod.DiscreteQuadraticModel()
     for node in G1.nodes:
-        # Discrete variable for node i in graph G1, with cases representing the nodes in graph G2
+        # Discrete variable for node i in graph G1, with cases
+        # representing the nodes in graph G2
         dqm.add_variable(n, node)
+
+    # Set up the coefficients associated with the constraints that
+    # each node in G2 is chosen once.  This represents the H_A
+    # component of the energy function.
+
+    A = 1.0 # Penalty coefficient associated with H_A
+
+    for node in G1.nodes:
+        dqm.set_linear(node, np.repeat(-A,n))
+    for itarget in range(n):
+        for ivar,node1 in enumerate(G1_nodes):
+            for node2 in G1_nodes[ivar+1:]:
+                bias = dqm.get_quadratic_case(node1, itarget, node2, itarget)
+                dqm.set_quadratic_case(node1, itarget, node2, itarget, bias + 2*A)
+
+    # Set up the coefficients associated with the constraints that
+    # selected edges must appear in both graphs, which is the H_B
+    # component of the energy function.
+
+    B = 1.0 # Penalty coefficient associated with H_B
 
     # For all edges in G1, penalizes mappings to edges not in G2
     for e1 in G1.edges:
@@ -57,9 +78,9 @@ def create_dqm(G1, G2):
             # In the DQM, the discrete variables represent nodes in
             # the first graph and are named according to the node
             # names.  The cases for each discrete variable represent
-            # nodes in the second graph and are index from 0..n-1
-            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1)
-            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1)
+            # nodes in the second graph and are indices from 0..n-1
+            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], B)
+            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], B)
 
     # For all edges in G2, penalizes mappings to edges not in G1
     for e2 in G2.edges:
@@ -67,18 +88,8 @@ def create_dqm(G1, G2):
         for e1 in itertools.combinations(G1.nodes, 2):
             if e1 in G1.edges:
                 continue
-            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1)
-            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1)
-
-    # Add in constraints that each node in G2 is chosen once
-    A = 1.0
-    for node in G1.nodes:
-        dqm.set_linear(node, np.repeat(-A,n))
-    for itarget in range(n):
-        for ivar,node1 in enumerate(G1_nodes):
-            for node2 in G1_nodes[ivar+1:]:
-                bias = dqm.get_quadratic_case(node1, itarget, node2, itarget)
-                dqm.set_quadratic_case(node1, itarget, node2, itarget, bias + 2*A)
+            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], B)
+            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], B)
 
     return dqm
 
