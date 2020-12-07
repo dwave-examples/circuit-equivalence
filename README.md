@@ -73,9 +73,9 @@ that each vertex in each of the two graphs is selected exactly once:
 
 ![HA](_static/HA.png)
 
-We are able to simplify this term by taking advantage of the discrete quadratic
-model representation.  Instead of using `N*N` binary variables, we use N
-discrete variables, each having N cases.  We let each discrete variable
+We are able to simplify this equation by taking advantage of the discrete
+quadratic model representation.  Instead of using `N*N` binary variables, we use
+N discrete variables, each having N cases.  We let each discrete variable
 represent a node in the first graph, and the N cases represent nodes in the
 second graph.  This way, the constraint of choosing each node in the first graph
 once is implicitly enforced, and only the first of the two terms in the original
@@ -87,10 +87,10 @@ or vice versa:
 
 ![HB](_static/HB.png)
 
-The interaction coefficients associated with `H_B` are defined using two
-double-loops.  Each double-loop includes an outer loop over the edges of one of
-the two graphs, along with an inner loop over all possible node combinations, so
-that penalty coefficients can be added for all combinations that are invalid.
+The interaction coefficients associated with `H_B` are defined in the code using
+two double-loops.  Each double-loop includes an outer loop over the edges of one
+of the two graphs, along with an inner loop over all possible node combinations,
+so that penalty coefficients can be added for all combinations that are invalid.
 
 The discrete quadratic model is then solved using the LeapHybridDQMSampler.  In
 the original formulation given by [1], the ground state energy, which
@@ -103,13 +103,13 @@ To check for circuit equivalence, we check two conditions: first, there must be
 an isomorphism between the two graphs.  This can be determined based on the
 energy values found in the DQM solution.  Second, for each isomorphism, we check
 that the corresponding circuit components are compatible.  For the examples
-here, we simply check for compatible of transistors (nMOS cannot be swapped with
-pMOS).
+here, we simply check for compatibility of transistors (nMOS cannot be swapped
+with pMOS).
 
 ## References
 
-[1] Johnson DS. The NP-completeness column. ACM Trans Algorith. (2005)
-1:160. doi: 10.1145/1077464.1077476.
+[1] Johnson, DS. The NP-completeness column. ACM Transactions on Algorithms,
+2005, 1-160. doi: 10.1145/1077464.1077476.
 
 [2] Lucas, A. Ising formulations of many NP problems. Frontiers in
 Physics, 2014. doi: 10.3389/fphy.2014.00005.
