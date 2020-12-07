@@ -27,6 +27,7 @@ except ImportError:
 import dimod
 from dwave.system import LeapHybridDQMSampler
 
+
 def create_dqm(G1, G2):
     """Construct DQM based on two graphs
     
@@ -93,6 +94,7 @@ def create_dqm(G1, G2):
 
     return dqm
 
+
 def find_isomorphism(G1, G2):
     """Search for isomorphism between two graphs
 
@@ -114,6 +116,7 @@ def find_isomorphism(G1, G2):
     else:
         # Isomorphism not found
         return None
+
 
 def find_equivalence(C1, C2):
     """Search for equivalence between two circuits
@@ -154,6 +157,7 @@ def find_equivalence(C1, C2):
             return None
 
     return None
+
 
 def plot_graphs(G1, G2, node_mapping):
     """Plot graphs of two circuits

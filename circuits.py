@@ -18,11 +18,13 @@ import networkx as nx
 
 Transistor = namedtuple('Transistor', 'name,drain,gate,source')
 
+
 class Circuit:
     def __init__(self, netlist_file):
         with open(netlist_file, 'r') as f:
             self.netlist = _parse_netlist(f)
         self.G = _create_graph(self.netlist)
+
 
 def _parse_netlist(file_obj):
 
@@ -33,6 +35,7 @@ def _parse_netlist(file_obj):
         values = line.split()
         netlist.append(Transistor._make(values[:4]))
     return netlist
+
 
 def _create_graph(netlist):
     G = nx.Graph()

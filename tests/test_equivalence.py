@@ -22,12 +22,14 @@ from equivalence import find_isomorphism, find_equivalence
 
 example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 class TestCircuits(unittest.TestCase):
     def test_parsing(self):
         C = Circuit("netlists/cmos_nand_1.txt")
 
         self.assertEqual(len(C.netlist), 4)
         self.assertEqual(C.G.number_of_nodes(), 10)
+
 
 class TestIsomorphism(unittest.TestCase):
     def test_isomorphs(self):
@@ -51,6 +53,7 @@ class TestIsomorphism(unittest.TestCase):
         results = find_isomorphism(C1.G, C2.G)
         self.assertEqual(results, None)
 
+
 class TestEquivalence(unittest.TestCase):
     def test_equivalent(self):
         C1 = Circuit("netlists/cmos_nand_1.txt")
@@ -66,10 +69,9 @@ class TestEquivalence(unittest.TestCase):
         results = find_equivalence(C1, C2)
         self.assertEqual(results, None)
 
+
 class TestIntegration(unittest.TestCase):
-
     def test_integration(self):
-
         file_path = os.path.join(example_dir, "equivalence.py")
 
         output = subprocess.check_output([sys.executable, file_path])
