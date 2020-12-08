@@ -106,6 +106,15 @@ that the corresponding circuit components are compatible.  For the examples
 here, we simply check for compatibility of transistors (nMOS cannot be swapped
 with pMOS).
 
+Some further simplifications to the formulation are possible, as discussed in
+Ref. [3].  For example, only nodes with the same degree in each graph are
+eligible to be matched.  In the DQM formulation, this could be achieved by
+reducing the number of cases for each discrete variable so that only cases
+corresponding to nodes with an equal degree are included.  This has the
+potential to significantly reduce the problem size, at the expense of additional
+bookkeeping to track the target nodes being represented by each discrete variable
+case.
+
 ## References
 
 [1] Johnson, DS. The NP-completeness column. ACM Transactions on Algorithms,
@@ -113,6 +122,10 @@ with pMOS).
 
 [2] Lucas, A. Ising formulations of many NP problems. Frontiers in
 Physics, 2014. doi: 10.3389/fphy.2014.00005.
+
+[3] Zick, M., Shehab, O., and French, M.  Experimental quantum annealing: case
+study involving the graph isomorphism problem.  Scientific Reports 5, 2015. doi:
+10.1038/srep11168.
 
 ## License
 
