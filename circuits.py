@@ -21,13 +21,22 @@ Transistor = namedtuple('Transistor', 'name,drain,gate,source')
 
 class Circuit:
     def __init__(self, netlist_file):
+        """Create circuit definition from netlist file
+        
+        Args:
+            netlist_file (str)
+        """
         with open(netlist_file, 'r') as f:
             self.netlist = _parse_netlist(f)
         self.G = _create_graph(self.netlist)
 
 
 def _parse_netlist(file_obj):
-
+    """Parse netlist file
+    
+    Returns:
+        list: list of Transistor instances
+    """
     netlist = []
     for line in file_obj:
         if not ('nmos' in line or 'pmos' in line):
@@ -38,6 +47,15 @@ def _parse_netlist(file_obj):
 
 
 def _create_graph(netlist):
+    """Construct graph from netlist
+    
+    Args:
+        netlist (list):
+            List of Transistor instances obtained from _parse_netlist
+    
+    Returns:
+        networkx.Graph
+    """
     G = nx.Graph()
     for t in netlist:
         G.add_edges_from([(t.name, t.drain), (t.name, t.gate), (t.name, t.source)])
