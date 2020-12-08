@@ -34,6 +34,10 @@ def create_dqm(G1, G2):
     Create discrete quadratic model to represent the problem of
     finding an isomorphism between the two graphs
     
+    Args:
+        G1 (networkx.Graph)
+        G2 (networkx.Graph)
+    
     Returns:
         DiscreteQuadraticModel
     """
@@ -98,6 +102,10 @@ def create_dqm(G1, G2):
 def find_isomorphism(G1, G2):
     """Search for isomorphism between two graphs
 
+    Args:
+        G1 (networkx.Graph)
+        G2 (networkx.Graph)
+
     Returns:
         If no isomorphism is found, returns None.  Otherwise, returns
         dict with keys as nodes from graph 1 and values as
@@ -124,6 +132,10 @@ def find_equivalence(C1, C2):
     This requires that the corresponding graphs are isomorphic and
     that matched nodes are "equivalent".  In particular, transistor
     types must match.
+    
+    Args:
+        C1 (Circuit)
+        C2 (Circuit)
     
     Returns:
         If no equivalence is found, returns None.  Otherwise, returns
@@ -165,6 +177,15 @@ def plot_graphs(G1, G2, node_mapping):
     The provided mapping specifies how nodes in graph 1 correspond to
     nodes in graph 2.  The nodes in each graph are colored using
     matching colors based on the specified mapping.
+
+    Args:
+        G1 (networkx.Graph)
+        G2 (networkx.Graph)
+        node_mapping (dict):
+            Dictionary that defines the correspondence between nodes
+            in graph 1 and nodes in graph 2.  The keys are names of
+            nodes in graph 1, and the values are names of nodes in
+            graph 2.
     """
     f, axes = plt.subplots(1, 2, figsize=[10,4.5])
 
