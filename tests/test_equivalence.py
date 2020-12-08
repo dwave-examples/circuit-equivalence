@@ -17,6 +17,7 @@ import subprocess
 import os
 import sys
 
+from tests import hybrid_solver_available
 from circuits import Circuit
 from equivalence import find_isomorphism, find_equivalence
 
@@ -31,6 +32,7 @@ class TestCircuits(unittest.TestCase):
         self.assertEqual(C.G.number_of_nodes(), 10)
 
 
+@unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestIsomorphism(unittest.TestCase):
     def test_isomorphs(self):
         C1 = Circuit("netlists/cmos_nand_1.txt")
@@ -54,6 +56,7 @@ class TestIsomorphism(unittest.TestCase):
         self.assertEqual(results, None)
 
 
+@unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestEquivalence(unittest.TestCase):
     def test_equivalent(self):
         C1 = Circuit("netlists/cmos_nand_1.txt")
@@ -70,6 +73,7 @@ class TestEquivalence(unittest.TestCase):
         self.assertEqual(results, None)
 
 
+@unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestIntegration(unittest.TestCase):
     def test_integration(self):
         file_path = os.path.join(example_dir, "equivalence.py")
