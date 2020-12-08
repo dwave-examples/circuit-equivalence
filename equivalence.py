@@ -133,7 +133,7 @@ def find_equivalence(C1, C2):
     if C1.G.number_of_nodes() != C2.G.number_of_nodes():
         return None
     dqm = create_dqm(C1.G, C2.G)
-    sampler = LeapHybridDQMSampler("hybrid_discrete_quadratic_model_version1")
+    sampler = LeapHybridDQMSampler()
     results = sampler.sample_dqm(dqm)
 
     if results.first.energy != -C1.G.number_of_nodes():
