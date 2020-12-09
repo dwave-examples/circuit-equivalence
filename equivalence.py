@@ -65,8 +65,7 @@ def create_dqm(G1, G2):
     for itarget in range(n):
         for ivar,node1 in enumerate(G1_nodes):
             for node2 in G1_nodes[ivar+1:]:
-                bias = dqm.get_quadratic_case(node1, itarget, node2, itarget)
-                dqm.set_quadratic_case(node1, itarget, node2, itarget, bias + 2*A)
+                dqm.set_quadratic_case(node1, itarget, node2, itarget, 2*A)
 
     # Set up the coefficients associated with the constraints that
     # selected edges must appear in both graphs, which is the H_B
