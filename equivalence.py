@@ -28,7 +28,7 @@ import dimod
 from dwave.system import LeapHybridDQMSampler
 
 
-def create_dqm(G1, G2):
+def create_dqm(G1, G2, A, B):
     """Construct DQM based on two graphs
     
     Create discrete quadratic model to represent the problem of
@@ -37,6 +37,10 @@ def create_dqm(G1, G2):
     Args:
         G1 (networkx.Graph)
         G2 (networkx.Graph)
+        A (float):
+            Penalty coefficient associated with HA term in objective function
+        B (float):
+            Penalty coefficient associated with HB term in objective function
     
     Returns:
         DiscreteQuadraticModel
@@ -58,8 +62,6 @@ def create_dqm(G1, G2):
     # each node in G2 is chosen once.  This represents the H_A
     # component of the energy function.
 
-    A = 1.0 # Penalty coefficient associated with H_A
-
     for node in G1.nodes:
         dqm.set_linear(node, np.repeat(-A,n))
     for itarget in range(n):
@@ -70,8 +72,6 @@ def create_dqm(G1, G2):
     # Set up the coefficients associated with the constraints that
     # selected edges must appear in both graphs, which is the H_B
     # component of the energy function.
-
-    B = 1.0 # Penalty coefficient associated with H_B
 
     # For all edges in G1, penalizes mappings to edges not in G2
     for e1 in G1.edges:
@@ -98,12 +98,16 @@ def create_dqm(G1, G2):
     return dqm
 
 
-def find_isomorphism(G1, G2):
+def find_isomorphism(G1, G2, A=1.0, B=1.0):
     """Search for isomorphism between two graphs
 
     Args:
         G1 (networkx.Graph)
         G2 (networkx.Graph)
+        A (float):
+            Penalty coefficient associated with HA term in objective function
+        B (float):
+            Penalty coefficient associated with HB term in objective function
 
     Returns:
         If no isomorphism is found, returns None.  Otherwise, returns
@@ -112,12 +116,12 @@ def find_isomorphism(G1, G2):
     """
     if G1.number_of_nodes() != G2.number_of_nodes():
         return None
-    dqm = create_dqm(G1, G2)
+    dqm = create_dqm(G1, G2, A, B)
     sampler = LeapHybridDQMSampler()
     results = sampler.sample_dqm(dqm)
 
     best = results.first
-    if best.energy == -G1.number_of_nodes():
+    if np.isclose(best.energy, -A * G1.number_of_nodes()):
         G2_nodes = list(G2.nodes)
         return {k: G2_nodes[i] for k,i in best.sample.items()}
     else:
@@ -125,7 +129,7 @@ def find_isomorphism(G1, G2):
         return None
 
 
-def find_equivalence(C1, C2):
+def find_equivalence(C1, C2, A=1.0, B=1.0):
     """Search for equivalence between two circuits
 
     This requires that the corresponding graphs are isomorphic and
@@ -135,6 +139,10 @@ def find_equivalence(C1, C2):
     Args:
         C1 (Circuit)
         C2 (Circuit)
+        A (float):
+            Penalty coefficient associated with HA term in objective function
+        B (float):
+            Penalty coefficient associated with HB term in objective function
     
     Returns:
         If no equivalence is found, returns None.  Otherwise, returns
@@ -143,17 +151,17 @@ def find_equivalence(C1, C2):
     """
     if C1.G.number_of_nodes() != C2.G.number_of_nodes():
         return None
-    dqm = create_dqm(C1.G, C2.G)
+    dqm = create_dqm(C1.G, C2.G, A, B)
     sampler = LeapHybridDQMSampler()
     results = sampler.sample_dqm(dqm)
 
-    if results.first.energy != -C1.G.number_of_nodes():
+    if not np.isclose(results.first.energy, -A * C1.G.number_of_nodes()):
         return None
 
     G2_nodes = list(C2.G.nodes)
 
     for sample, energy in results.data(fields=['sample','energy']):
-        if energy == -C1.G.number_of_nodes():
+        if np.isclose(energy, -A * C1.G.number_of_nodes()):
             # Now check that the transistor types match
             mapping = {k: G2_nodes[i] for k,i in sample.items()}
             valid = True
