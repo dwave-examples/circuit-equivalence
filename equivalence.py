@@ -114,7 +114,7 @@ def find_isomorphism(G1, G2):
     if G1.number_of_nodes() != G2.number_of_nodes():
         return None
     dqm = create_dqm(G1, G2)
-    sampler = LeapHybridDQMSampler("hybrid_discrete_quadratic_model_version1")
+    sampler = LeapHybridDQMSampler()
     results = sampler.sample_dqm(dqm)
 
     best = results.first
