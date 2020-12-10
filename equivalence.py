@@ -206,7 +206,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("netlist1", nargs='?', default="netlists/cmos_nand_1.txt", help="netlist file specifying first circuit (default: %(default)s)")
     parser.add_argument("netlist2", nargs='?', default="netlists/cmos_nand_2.txt", help="netlist file specifying second circuit (default: %(default)s)")
-    parser.add_argument("--plot",  action='store_true', help="plot graphs of the circuits")
+    parser.add_argument("--show-plot",  action='store_true', help="display plot of graphs of the circuits")
+    parser.add_argument("--save-plot",  action='store_true', help="save plot of graphs of the circuits to file")
 
     args = parser.parse_args()
 
@@ -222,8 +223,15 @@ if __name__ == '__main__':
         for n1,n2 in results.items():
             print('  {} -> {}'.format(n1, n2))
 
-        if args.plot:
+        if args.show_plot or args.save_plot:
             axes = plot_graphs(C1.G, C2.G, results)
             axes[0].set_title(args.netlist1)
             axes[1].set_title(args.netlist2)
-            plt.show()
+
+            if args.save_plot:
+                filename = 'circuit_equivalence.png'
+                plt.savefig(filename, bbox_inches='tight', dpi=200)
+                print('Plot saved to:', filename)
+
+            if args.show_plot:
+                plt.show()

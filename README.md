@@ -21,17 +21,24 @@ along with the corresponding graph:
 To run the demonstration, execute:
 
 ```bash
-python equivalence.py --plot
+python equivalence.py --show-plot
 ```
 
-This command solves the circuit equivalence problem for two different
-descriptions of a CMOS NAND gate (provided in the `cmos_nand_1.txt` and
-`cmos_nand2.txt` files in the `netlists` directory).  Other circuit descriptions
-may be used as input by providing them as positional arguments in the execution
-command.  The `--plot` flag is optional, and it generates a plot of the graphs
-of the two circuits, using colors to indicate the identified node
-correspondence.  Run `python equivalence.py -h` for a description of the command
-line options.
+Or:
+
+```bash
+python equivalence.py --save-plot
+```
+
+Either of these commands solves the circuit equivalence problem for two
+different descriptions of a CMOS NAND gate (provided in the `cmos_nand_1.txt`
+and `cmos_nand2.txt` files in the `netlists` directory).  Other circuit
+descriptions may be used as input by providing them as positional arguments in
+the execution command.  The `--show-plot` and `--save-plot` flags are optional,
+and they generate a plot of the graphs of the two circuits, using colors to
+indicate the identified node correspondence.  The `--show-plot` flag displays an
+interactive plot using matplotlib, and `--save-plot` saves the plot to a file.
+Run `python equivalence.py -h` for a description of the command line options.
 
 ## Code Overview
 
