@@ -68,7 +68,7 @@ Several example netlist files are provided in the `netlists` directory:
 - `cmos_nand_1.txt`: Specification of a CMOS NAND gate
 - `cmos_nand_2.txt`: Alternative specification of a CMOS NAND gate, using only
   small changes in the naming of the components and the ordering of the
-  definitions, relative to `cmos_nand_2.txt`
+  definitions, relative to `cmos_nand_1.txt`
 - `cmos_nand_error.txt`: An example of an incorrect specification of a CMOS
   NAND gate, which is not equivalent to the correct representation
 - `cmos_nor_1.txt`: Specification of a CMOS NOR gate.  This circuit does produce
@@ -85,8 +85,8 @@ defaults to using `cmos_nand_1.txt` and `cmos_nand_2.txt`.
 ## Code Specifics
 
 The core part of the code involves formulating the graph isomorphism problem as
-a discrete quadratic model that can be solved on the D-Wave Leap hybrid solver.
-The general approach is based on that outlined by Lucas [2], which describes
+a discrete quadratic model that can be solved on the Leap hybrid solvers.  The
+general approach is based on that outlined by Lucas [2], which describes
 formulation as a binary quadratic model.  In Lucas's formulation, there are
 `N*N` binary variables `x_{v,i}` (N denotes that number of nodes in each graph,
 which must be the same for there to be an isomorphism) that represent whether a
