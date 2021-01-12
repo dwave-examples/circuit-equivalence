@@ -230,7 +230,7 @@ if __name__ == '__main__':
 
             if args.save_plot:
                 filename = 'circuit_equivalence.png'
-                plt.savefig(filename, bbox_inches='tight', dpi=200)
+                plt.savefig(filename, bbox_inches='tight')
                 print('Plot saved to:', filename)
 
             if args.show_plot:
