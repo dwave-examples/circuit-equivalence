@@ -42,7 +42,7 @@ def _parse_netlist(file_obj):
         if not ('nmos' in line or 'pmos' in line):
             continue
         values = line.split()
-        netlist.append(Transistor._make(values[:4]))
+        netlist.append(Transistor(*values[:4]))
     return netlist
 
 
