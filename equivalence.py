@@ -110,7 +110,7 @@ def find_isomorphism(G1, G2):
         return None
     dqm = create_dqm(G1, G2)
     sampler = LeapHybridDQMSampler()
-    results = sampler.sample_dqm(dqm)
+    results = sampler.sample_dqm(dqm, label='Example - Circuit Equivalence')
 
     best = results.first
     # Note: with this formulation, the ground state energy for an
@@ -144,7 +144,7 @@ def find_equivalence(C1, C2):
         return None
     dqm = create_dqm(C1.G, C2.G)
     sampler = LeapHybridDQMSampler()
-    results = sampler.sample_dqm(dqm)
+    results = sampler.sample_dqm(dqm, label='Example - Circuit Equivalence')
 
     if not np.isclose(results.first.energy, -C1.G.number_of_nodes()):
         return None
