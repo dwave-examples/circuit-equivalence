@@ -15,7 +15,7 @@
 from functools import lru_cache
 
 from dwave.cloud import Client
-from dwave.cloud.exceptions import ConfigFileError
+from dwave.cloud.exceptions import ConfigFileError, SolverNotFoundError
 
 @lru_cache(maxsize=None)
 def hybrid_solver_available():
@@ -23,7 +23,7 @@ def hybrid_solver_available():
     try:
         with Client.from_config() as client:
             solver = client.get_solver(hybrid=True)
-    except (ConfigFileError, ValueError) as e:
+    except (ConfigFileError, ValueError, SolverNotFoundError) as e:
         return False
     else:
         return True

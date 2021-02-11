@@ -67,7 +67,11 @@ def create_dqm(G1, G2):
 
     # Set up the coefficients associated with the constraints that
     # selected edges must appear in both graphs, which is the H_B
-    # component of the energy function.
+    # component of the energy function.  The penalty coefficient B
+    # controls the weight of H_B relative to H_A in the energy
+    # function.  The value was selected by trial and error using
+    # simple test problems.
+    B = 2.0
 
     # For all edges in G1, penalizes mappings to edges not in G2
     for e1 in G1.edges:
@@ -79,8 +83,8 @@ def create_dqm(G1, G2):
             # the first graph and are named according to the node
             # names.  The cases for each discrete variable represent
             # nodes in the second graph and are indices from 0..n-1
-            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1.0)
-            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1.0)
+            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], B)
+            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], B)
 
     # For all edges in G2, penalizes mappings to edges not in G1
     for e2 in G2.edges:
@@ -88,8 +92,8 @@ def create_dqm(G1, G2):
         for e1 in itertools.combinations(G1.nodes, 2):
             if e1 in G1.edges:
                 continue
-            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], 1.0)
-            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], 1.0)
+            dqm.set_quadratic_case(e1[0], e2_indices[0], e1[1], e2_indices[1], B)
+            dqm.set_quadratic_case(e1[0], e2_indices[1], e1[1], e2_indices[0], B)
 
     return dqm
 
