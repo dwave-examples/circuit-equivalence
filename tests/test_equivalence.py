@@ -17,6 +17,8 @@ import subprocess
 import os
 import sys
 
+from dwave.cloud.utils import retried
+
 from tests import hybrid_solver_available
 from circuits import Circuit
 from equivalence import find_isomorphism, find_equivalence
@@ -34,6 +36,7 @@ class TestCircuits(unittest.TestCase):
 
 @unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestIsomorphism(unittest.TestCase):
+    @retried(retries=3)
     def test_isomorphs(self):
         C1 = Circuit("netlists/cmos_nand_1.txt")
         C2 = Circuit("netlists/cmos_nand_2.txt")
@@ -58,6 +61,7 @@ class TestIsomorphism(unittest.TestCase):
 
 @unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestEquivalence(unittest.TestCase):
+    @retried(retries=3)
     def test_equivalent(self):
         C1 = Circuit("netlists/cmos_nand_1.txt")
         C2 = Circuit("netlists/cmos_nand_2.txt")
@@ -75,6 +79,7 @@ class TestEquivalence(unittest.TestCase):
 
 @unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
 class TestIntegration(unittest.TestCase):
+    @retried(retries=3)
     def test_integration(self):
         file_path = os.path.join(example_dir, "equivalence.py")
 
