@@ -75,15 +75,3 @@ class TestEquivalence(unittest.TestCase):
 
         results = find_equivalence(C1, C2)
         self.assertEqual(results, None)
-
-
-@unittest.skipUnless(hybrid_solver_available(), "requires hybrid solver")
-class TestIntegration(unittest.TestCase):
-    @retried(retries=3)
-    def test_integration(self):
-        file_path = os.path.join(example_dir, "equivalence.py")
-
-        output = subprocess.check_output([sys.executable, file_path])
-        output = output.decode('utf-8') # Bytes to str
-
-        self.assertIn('circuits are equivalent', output.lower())
