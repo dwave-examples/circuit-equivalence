@@ -21,8 +21,8 @@ from dwave.cloud.utils import retried
 
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# These are integration tests used to validate example run successfully with other integrated systems
-# It is designed to run from any other directory than current directory
+# These integration tests are used to validate example run successfully with other integrated systems
+# It is designed to run from any other directory
 
 class IntegrationTests(unittest.TestCase):
 
