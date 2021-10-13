@@ -49,6 +49,13 @@ def create_dqm(G1, G2):
     G2_nodes = list(G2.nodes)
 
     dqm = dimod.DiscreteQuadraticModel()
+
+    # In this formulation, the offset is equal to the number of nodes (multipled
+    # by the penalty coefficient A, currently taken to be 1).  Note that in a
+    # BQM formulation, the offset would be twice this number due to the need to
+    # use a penalty model for each direction of the bijection constraint.
+    dqm.offset = n
+
     for node in G1.nodes:
         # Discrete variable for node i in graph G1, with cases
         # representing the nodes in graph G2
@@ -117,10 +124,7 @@ def find_isomorphism(G1, G2):
     results = sampler.sample_dqm(dqm, label='Example - Circuit Equivalence')
 
     best = results.first
-    # Note: with this formulation, the ground state energy for an
-    # isomorphism is -A*N, where A is the penalty coefficient
-    # associated with the H_A term, currently assumed to be 1.
-    if np.isclose(best.energy, -G1.number_of_nodes()):
+    if np.isclose(best.energy, 0.0):
         G2_nodes = list(G2.nodes)
         return {k: G2_nodes[i] for k,i in best.sample.items()}
     else:
@@ -150,13 +154,13 @@ def find_equivalence(C1, C2):
     sampler = LeapHybridDQMSampler()
     results = sampler.sample_dqm(dqm, label='Example - Circuit Equivalence')
 
-    if not np.isclose(results.first.energy, -C1.G.number_of_nodes()):
+    if not np.isclose(results.first.energy, 0.0):
         return None
 
     G2_nodes = list(C2.G.nodes)
 
     for sample, energy in results.data(fields=['sample','energy']):
-        if np.isclose(energy, -C1.G.number_of_nodes()):
+        if np.isclose(energy, 0.0):
             # Now check that the transistor types match
             mapping = {k: G2_nodes[i] for k,i in sample.items()}
             valid = True

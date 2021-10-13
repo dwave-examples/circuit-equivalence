@@ -117,12 +117,8 @@ two double-loops.  Each double-loop includes an outer loop over the edges of one
 of the two graphs, along with an inner loop over all possible node combinations,
 so that penalty coefficients can be added for all combinations that are invalid.
 
-The discrete quadratic model is then solved using the LeapHybridDQMSampler.  In
-the original formulation given by [2], the ground state energy, which
-corresponds to a graph isomorphism, is zero.  In the DQM formulation, the
-constant value of 1 within the second summation in Eq. (71) for `H_A` is not
-included, which results in the ground state energy being equal to `-N` instead
-of 0.
+The discrete quadratic model is then solved using the LeapHybridDQMSampler.  If
+the two graphs are isomorphic, then the ground state energy is zero.
 
 To check for circuit equivalence, we check two conditions: first, there must be
 an isomorphism between the two graphs.  This can be determined based on the
