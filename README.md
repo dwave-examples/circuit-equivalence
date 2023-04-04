@@ -1,3 +1,7 @@
+[![Open in Leap IDE](
+  https://cdn-assets.cloud.dwavesys.com/shared/latest/badges/leapide.svg)](
+  https://ide.dwavesys.io/#https://github.com/dwave-examples/circuit-equivalence)
+
 # Circuit Equivalence
 
 This demonstration addresses the task of verifying the equivalence of two
