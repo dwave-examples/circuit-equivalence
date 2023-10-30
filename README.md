@@ -1,6 +1,6 @@
-[![Open in Leap IDE](
-  https://cdn-assets.cloud.dwavesys.com/shared/latest/badges/leapide.svg)](
-  https://ide.dwavesys.io/#https://github.com/dwave-examples/circuit-equivalence)
+[![Open in GitHub Codespaces](
+  https://img.shields.io/badge/Open%20in%20GitHub%20Codespaces-333?logo=github)](
+  https://codespaces.new/dwave-examples/circuit-equivalence?quickstart=1)
 
 # Circuit Equivalence
 
