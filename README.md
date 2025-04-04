@@ -54,10 +54,10 @@ The code uses the following steps:
 - Each circuit is then converted into a graph where each element in the circuit
   is represented by a node in the graph, and edges are used to represent
   connections between the elements in the circuit.
-- Next, a discrete quadratic model (DQM) is constructed such that the [objective
-  function](https://docs.dwavesys.com/docs/latest/c_gs_3.html) represents the
-  problem of finding an isomorphism between the two graphs.  Further details are
-  given in the next section.
+- Next, a discrete quadratic model (DQM) is constructed such that the
+  [objective function](https://docs.dwavequantum.com/en/latest/industrial_optimization/workflow.html#objective-functions)
+  represents the problem of finding an isomorphism between the two graphs.
+  Further details are given in the next section.
 - The DQM is then solved on the hybrid quantum-classical computing resource
   using the LeapHybridDQMSampler.
 - Each result in the SampleSet is then checked to determine whether (a) it
